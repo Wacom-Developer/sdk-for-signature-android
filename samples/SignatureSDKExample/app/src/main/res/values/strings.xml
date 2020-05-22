@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="width" translatable="false">Width: </string>
+    <string name="height" translatable="false">Height: </string>
+    <string name="ink_color" translatable="false">Ink Color: </string>
+    <string name="ink_width" translatable="false">Ink Width: </string>
+    <string name="encryption_method" translatable="false">Encryption method:</string>
+    <string name="signature_format" translatable="false">Signature format:</string>
+
+    <string name="encryption_method_none" translatable="false">Without encryption</string>
+    <string name="encryption_method_password" translatable="false">Encrypted with password: </string>
+    <string name="encryption_method_certificate" translatable="false">Encrypted with public/private key</string>
+
+    <string name="signature_format_fss" translatable="false">FSS</string>
+    <string name="signature_format_iso_binary" translatable="false">ISO Binary</string>
+    <string name="signature_format_iso_xml" translatable="false">ISO Xml</string>
+
+    <string name="signature_export_title" translatable="false">Select format to export:</string>
+    
+    <string name="default_who" translatable="false">Signee name</string>
+    <string name="default_why" translatable="false">Reason for signing</string>
+    <string name="default_what" translatable="false">Attach file hash</string>
+    <string name="default_width" translatable="false">400</string>
+    <string name="default_height" translatable="false">400</string>
+    
+    <string name="des_background" translatable="false">Image background</string>
+    <string name="des_logo" translatable="false">Wacom logo</string>
+    <string name="des_app_name" translatable="false">SignatureSDK</string>
+    <string name="des_open" translatable="false">Open</string>
+    <string name="des_capture" translatable="false">Capture</string>
+    <string name="des_show" translatable="false">Show</string>
+    <string name="des_save" translatable="false">Save</string>
+    <string name="des_clear" translatable="false">Clear</string>
+    <string name="des_info" translatable="false">Info</string>
+    <string name="des_check_integrity" translatable="false">Check integrity</string>
+    <string name="des_check_document" translatable="false">Check document</string>
+    <string name="des_about" translatable="false">About</string>
+    <string name="des_attach_document" translatable="false">Attach document</string>
+    <string name="des_select_color" translatable="false">Select color</string>
+
+</resources>
