@@ -1,4 +1,4 @@
-# Signature SDK Android
+# Wacom Ink SDK for signature - Android
 
 ## Version 2.2
 

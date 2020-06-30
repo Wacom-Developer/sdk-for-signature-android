@@ -13,7 +13,7 @@ The *Wacom Ink SDK for Signature for Android* consists of the following parts:
 
 * About Activity: This window consists of a simple dialog box with the version, licensing and contact information.
 
-* SigObj Service: This class wraps the java Signature SDK SigObj methods and properties, and makes it visible as an Android service available for public access from other applications.
+* SigObj Service: This class wraps the java SDK SigObj methods and properties, and makes it visible as an Android service available for public access from other applications.
 
 * DynamicCapture Activity: Opens a window for capturing the signature and returns the signature data as a byte array.
 
