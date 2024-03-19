@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title>User form</title>
+        <script type="text/javascript">
+            function validateForm() {
+                var valid = true;
+                if (!document.getElementById("nameField").value) {
+                    alert("Name cannot be empty");
+                    valid = false;
+                } else if (!document.getElementById("reasonField").value) {
+                    alert("Reason cannot be empty");
+                    valid = false;
+                }
+                return valid;
+            }
+            function signForm() {
+                if (validateForm()) {
+                    javaInterface.signForm(document.getElementById("nameField").value,
+                                           document.getElementById("reasonField").value,
+                                           document.getElementById("commentsField").value
+                                           );
+                }
+            }
+            function importSignature() {
+                javaInterface.importSignature();
+            }
+            function verifyForm() {
+                javaInterface.verifyForm(document.getElementsByTagName("img")[0].src);
+            }
+        </script>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <h2>Please fill the form</h2>
+            <form name="form">
+                <p>Name:&nbsp; <input id="nameField" name="name" type="text" value=""/></p>
+                <p>Reason:&nbsp; <input id="reasonField" name="reason" type="text" value=""/></p>
+                <p>Comments: <br/> <textarea id="commentsField" name="comments" cols="50" rows="10"></textarea></p>
+                <div id="signatureDiv"></div>
+                <div id="buttonDiv">
+                    <button id="button" type="button" name="sign" onclick="javascript:signForm()">Sign form</button>
+                    <button id="import" type="button" name="import" onclick="javascript:importSignature()">Import signature</button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

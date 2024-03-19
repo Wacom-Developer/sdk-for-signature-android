@@ -1,0 +1,16 @@
+<resources>
+
+    <color name="navbar_bg_color">#363636</color>
+    <color name="leftside_navbar_bg_color">#4a4a4a</color>
+    
+    <color name="color_1">#000000</color>
+    <color name="color_2">#333333</color>
+    <color name="color_3">#666666</color>
+    <color name="color_4">#495aa1</color>
+    <color name="color_5">#a93a3a</color>
+    <color name="color_6">#43815a</color>
+    <color name="color_7">#7f5c88</color>    
+    
+    <color name="light_grey">#b5b5b5</color>
+
+</resources>

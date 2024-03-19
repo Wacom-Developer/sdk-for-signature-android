@@ -1,0 +1,18 @@
+<resources>
+
+    <item name="arrow_btn_width" format="dimension" type="dimen">30dp</item>
+    <item name="btn_group_space" format="dimension" type="dimen">25dp</item>
+    <item name="navbar_left_space" format="dimension" type="dimen">10dp</item>
+    <item name="navbar_right_space" format="dimension" type="dimen">20dp</item>
+    <item name="navbar_top_padding" format="dimension" type="dimen">15dp</item>
+    <item name="navbar_bottom_padding" format="dimension" type="dimen">15dp</item>
+    <item name="btn_width" format="dimension" type="dimen">44dp</item>
+    <item name="btn_height" format="dimension" type="dimen">44dp</item>
+    <item name="navbar_container_width" format="dimension" type="dimen">730dp</item>
+    <item name="navbar_container_height" format="dimension" type="dimen">40dp</item>
+
+    <item name="ink_width_thin" type="dimen" format="float">3.0</item>
+    <item name="ink_width_med" type="dimen" format="float">5.0</item>
+    <item name="ink_width_thick" type="dimen" format="float">8.0</item>
+
+</resources>

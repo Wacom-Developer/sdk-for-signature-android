@@ -1,0 +1,250 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- Background image -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/des_background"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_bgr" />
+    </RelativeLayout>
+
+    <!-- Controls layout -->
+
+    <LinearLayout
+        android:id="@+id/controls_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/width" />
+
+            <EditText
+                android:id="@+id/editWidth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="@string/default_width" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/height" />
+
+            <EditText
+                android:id="@+id/editHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="@string/default_height" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/ink_color" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/color_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/des_select_color"
+                android:onClick="selectInkColor"
+                android:src="@drawable/btn_color"
+                android:tint="@color/color_1" />
+
+            <ImageView
+                android:id="@+id/color_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/des_select_color"
+                android:onClick="selectInkColor"
+                android:src="@drawable/btn_color"
+                android:tint="@color/color_3" />
+
+            <ImageView
+                android:id="@+id/color_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/des_select_color"
+                android:onClick="selectInkColor"
+                android:src="@drawable/btn_color"
+                android:tint="@color/color_4" />
+
+            <ImageView
+                android:id="@+id/color_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/des_select_color"
+                android:onClick="selectInkColor"
+                android:src="@drawable/btn_color"
+                android:tint="@color/color_5" />
+
+            <ImageView
+                android:id="@+id/color_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/des_select_color"
+                android:onClick="selectInkColor"
+                android:src="@drawable/btn_color"
+                android:tint="@color/color_6" />
+
+            <ImageView
+                android:id="@+id/color_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/des_select_color"
+                android:onClick="selectInkColor"
+                android:src="@drawable/btn_color"
+                android:tint="@color/color_7" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/ink_width" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/thickness_thin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="selectInkWidth"
+                android:src="@drawable/icon_options_thickness_thin"
+                android:tint="@color/light_grey" />
+
+            <ImageView
+                android:id="@+id/thickness_med"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="selectInkWidth"
+                android:src="@drawable/icon_options_thickness_med"
+                android:tint="@color/light_grey" />
+
+            <ImageView
+                android:id="@+id/thickness_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="selectInkWidth"
+                android:src="@drawable/icon_options_thickness_bold"
+                android:tint="@color/light_grey" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/encryption_method" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <RadioGroup
+                android:id="@+id/encryption_method_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/encryption_method_none"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="selectEncryptionMode"
+                    android:text="@string/encryption_method_none"/>
+
+                <RadioButton
+                    android:id="@+id/encryption_method_certificate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="selectEncryptionMode"
+                    android:text="@string/encryption_method_certificate"/>
+
+                <RadioButton
+                    android:id="@+id/encryption_method_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="selectEncryptionMode"
+                    android:text="@string/encryption_method_password"/>
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/encryption_password"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/encryption_method_group"
+                android:layout_toRightOf="@+id/encryption_method_group"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/signature_format" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/signature_format_fss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="selectSignatureFormat"
+                android:text="@string/signature_format_fss"/>
+
+            <RadioButton
+                android:id="@+id/signature_format_iso_binary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="selectSignatureFormat"
+                android:text="@string/signature_format_iso_binary"/>
+
+            <RadioButton
+                android:id="@+id/signature_format_iso_xml"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="selectSignatureFormat"
+                android:text="@string/signature_format_iso_xml"/>
+        </RadioGroup>
+
+    </LinearLayout>
+
+</RelativeLayout>
