@@ -7,20 +7,20 @@ The *Wacom Ink SDK for Signature* for Android is supplied for use on Android Dev
 * Samsung Galaxy Note series (mobiles and tablets)
 * Wacom Cintiq Hybrid
 
-## Download the Signature SDK
+## Download the Wacom Ink SDK for signature
 
 Download the SDK from https://developer.wacom.com/developer-dashboard
 
 * login using your Wacom ID
 * Select **Downloads for signature**
-* Download **Signature SDK for Android**
+* Download **Wacom Ink SDK for signature for Android**
 * Accept the End User License Agreement to use the SDK
 
 The downloaded Zip file contains the SDK with documentation.
 
 ## Download an evaluation license
 
-A license is needed to use the Signature SDK and a fully functional evaluation license is free to download as follows:
+A license is needed to use the Wacom Ink SDK for signature and a fully functional evaluation license is free to download as follows:
 
 * Navigate to https://developer.wacom.com/developer-dashboard
 * login using your Wacom ID
@@ -36,22 +36,22 @@ The self-service evaluation licenses have a three-month expiry date from the tim
 However, you can generate a new license at any time.
 
 
-## Add the Signature SDK to an existing project
+## Add the Wacom Ink SDK for signature to an existing project
 
-The Signature SDK is distributed as an *aar* library for Android Studio.
+The SDK is distributed as an *aar* library for Android Studio.
 In order to setup the SignatureSDKExample app in your development environment, perform the following steps:
 
 * Open the SignatureSDKExample with Android Studio IDE
 * From the Android Studio menu, navigate to: 
   `File -> New -> New Module -> Import .JAR/.AAR Package`
-*	Under Root Directory, click Browse and locate the Signature SDK .aar file.
+*	Under Root Directory, click Browse and locate the SDK .aar file.
 * Click on Finish to complete the library import.
 
-Now to reference the newly created module with the Signature SDK in the SignatureSDKExample project:
+Now to reference the newly created module with the SDK in the SignatureSDKExample project:
 
 * Perform right click on the SignatureSDKExample project to open the contextual menu.
 * Click on `Open Module Settings`
-* On `Dependencies` tab add a new module dependency selecting the Signature SDK library module.
+* On `Dependencies` tab add a new module dependency selecting the SDK library module.
 
 Apply the license:
 * Place the supplied license file under the Assets folder of the SignatureSDKExample project.
@@ -68,11 +68,11 @@ The SignatureSDKExample app can now be built and tested on the compatible Androi
 
 ![Android SDK Sample Main](media/list_screen.png)
 
-* About screen shows information about the Signature SDK version
+* About screen shows information about the SDK version
 
 ![Android SDK Sample Main](media/about_screen.png)
 
-* From settings screen it is possible to change the size, color, width, encryption method and signature format (for more information see Signature SDK documentation)
+* From settings screen it is possible to change the size, color, width, encryption method and signature format (for more information see SDK documentation)
 
 ![Android SDK Sample Main](media/settings_screen.png)
 

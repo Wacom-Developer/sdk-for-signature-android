@@ -1,8 +1,17 @@
-# Signature SDK Android
+# Wacom Ink SDK for signature - Android
 
-## Version 2.2
+## Version 2.3
 
 ## History
+
+* 2.3 27 March 2020
+
+   * Added SignatureCaptureView as extension of TextureView
+   * Added SignatureCaptureSurfaceView as extension of SurfaceView
+   * Added ISO encryption support
+   * Extract WILL SDK to make it compatible with other Wacom SDKs
+   * Fixed bug in hash with really big files
+   * Fixed bug with rendering pen size 
 
 * 2.2 22 February  2019
 
