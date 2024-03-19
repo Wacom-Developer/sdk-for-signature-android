@@ -2,7 +2,7 @@
 
 ## Development environment
 
-The *Wacom Ink SDK for Signature* for Android is supplied for use on Android Devices with a built-in stylus, specifically it has been tested on:
+The *Wacom Ink SDK for Signature* for Android is supplied for use on Android Devices with a built-in stylus. Specifically, it has been tested on:
 
 * Samsung Galaxy Note series (mobiles and tablets)
 * Wacom Cintiq Hybrid
@@ -11,7 +11,7 @@ The *Wacom Ink SDK for Signature* for Android is supplied for use on Android Dev
 
 Download the SDK from https://developer.wacom.com/developer-dashboard
 
-* login using your Wacom ID
+* log in using your Wacom ID
 * Select **Downloads for signature**
 * Download **Wacom Ink SDK for signature for Android**
 * Accept the End User License Agreement to use the SDK
@@ -23,7 +23,7 @@ The downloaded Zip file contains the SDK with documentation.
 A license is needed to use the Wacom Ink SDK for signature and a fully functional evaluation license is free to download as follows:
 
 * Navigate to https://developer.wacom.com/developer-dashboard
-* login using your Wacom ID
+* log in using your Wacom ID
 * Select **Licenses**
 * Select **New Evaluation License**
 * Select **Generate Evaluation License** for Wacom Ink SDK for Signature
@@ -39,7 +39,7 @@ However, you can generate a new license at any time.
 ## Add the Wacom Ink SDK for signature to an existing project
 
 The SDK is distributed as an *aar* library for Android Studio.
-In order to setup the SignatureSDKExample app in your development environment, perform the following steps:
+In order to set up the SignatureSDKExample app in your development environment, perform the following steps:
 
 * Open the SignatureSDKExample with Android Studio IDE
 * From the Android Studio menu, navigate to: 
@@ -49,18 +49,18 @@ In order to setup the SignatureSDKExample app in your development environment, p
 
 Now to reference the newly created module with the SDK in the SignatureSDKExample project:
 
-* Perform right click on the SignatureSDKExample project to open the contextual menu.
+* Right-click on the SignatureSDKExample project to open the contextual menu.
 * Click on `Open Module Settings`
-* On `Dependencies` tab add a new module dependency selecting the SDK library module.
+* On the `Dependencies` tab, add a new module dependency selecting the SDK library module.
 
-Apply the license:
+To apply the license:
 * Place the supplied license file under the Assets folder of the SignatureSDKExample project.
 * Open the file FormViewerActivity.java under package com.wacom.signaturesdkexample in src.
 * Locate the line: 
         `public static final String LICENSE = "Put the licence string here";`
   and replace the string with the license string.
 
-The SignatureSDKExample app can now be built and tested on the compatible Android device.
+The SignatureSDKExample app can now be built and tested on any compatible Android device.
 
 ## Using the Sample Application
 
@@ -72,7 +72,7 @@ The SignatureSDKExample app can now be built and tested on the compatible Androi
 
 ![Android SDK Sample Main](media/about_screen.png)
 
-* From settings screen it is possible to change the size, color, width, encryption method and signature format (for more information see SDK documentation)
+* From the settings screen, it is possible to change the size, color, width, encryption method and signature format (for more information see SDK documentation)
 
 ![Android SDK Sample Main](media/settings_screen.png)
 
@@ -90,17 +90,30 @@ The SignatureSDKExample app can now be built and tested on the compatible Androi
 
 ### Import signature
 
-* It is possible to attach to the form an existing signature instead of capture a new one. However, in this case, the form data won't be attached to the signature
+* It is possible to attach to the form an existing signature instead of capturing a new one. However, in this case, the form data won't be attached to the signature.
 
 ### Verify signature
 
-* Click on the **Verify form** button to verify that the form has not been changed
+* Click on the **Verify form** button to verify that the form has not been changed.
 
 ![Android SDK Sample Capture](media/signed_form_screen.png)
 
 ### Form options
 
 ![Android SDK Sample Capture](media/list_form_screen.png)
+
+### Export signature
+
+![Export signature options](media/export_screen.png)
+
+### Delete signature
+
+![Delete signature option](media/delete_screen.png)
+
+### Signature details
+
+![HTML](media/html_screen.png)
+
 
 ----
 

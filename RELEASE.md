@@ -1,8 +1,14 @@
 # Wacom Ink SDK for signature - Android
 
-## Version 2.3
+## Version 2.4
 
 ## History
+
+* 2.4 04 March 2024
+
+   * Added ISO 2014 support
+   * New export signature as acquired feature
+   * API expanded to enable the provision & acceptance of pre-calculated hash data 
 
 * 2.3 27 March 2020
 
