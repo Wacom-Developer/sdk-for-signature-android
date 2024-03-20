@@ -64,6 +64,8 @@ The SignatureSDKExample app can now be built and tested on any compatible Androi
 
 ## Using the Sample Application
 
+From the download Zip file, take the files `signaturesdk_2.4.aar` and `will-sdk-1.8.4.aar` and add them to SignatureSDKExample/app/libs/. 
+
 * Running the SignatureSDKExample on Android Studio, you will see the main screen
 
 ![Android SDK Sample Main](media/list_screen.png)
@@ -76,7 +78,7 @@ The SignatureSDKExample app can now be built and tested on any compatible Androi
 
 ![Android SDK Sample Main](media/settings_screen.png)
 
-* To create a new form you can fill the fields `Name`, `Reason` and `Comments`. The form data will be attached to the signature when signing the form
+* To create a new form you can fill in the fields `Name`, `Reason` and `Comments`. The form data will be attached to the signature when signing the form
 
 ![Android SDK Sample Main](media/form_screen.png)
 
