@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name" translatable="false">Wacom Signature SDK Demo</string>
 
     <string name="width" translatable="false">Width: </string>
     <string name="height" translatable="false">Height: </string>
@@ -13,8 +14,15 @@
     <string name="encryption_method_certificate" translatable="false">Encrypted with public/private key</string>
 
     <string name="signature_format_fss" translatable="false">FSS</string>
-    <string name="signature_format_iso_binary" translatable="false">ISO Binary</string>
+    <string name="signature_format_iso_binary" translatable="false">ISO 2007 Binary</string>
+    <string name="signature_format_iso_2014_binary" translatable="false">ISO 2014 Binary</string>
     <string name="signature_format_iso_xml" translatable="false">ISO Xml</string>
+
+    <string name="export_signature_format_as_acquired" translatable="false">Export Signature as acquired</string>
+    <string name="export_signature_format_fss" translatable="false">Converted as FSS</string>
+    <string name="export_signature_format_iso_binary" translatable="false">Converted as ISO 2007 Binary</string>
+    <string name="export_signature_format_iso_2014_binary" translatable="false">Converted as ISO 2014 Binary</string>
+    <string name="export_signature_format_iso_xml" translatable="false">Converted as ISO Xml</string>
 
     <string name="signature_export_title" translatable="false">Select format to export:</string>
     

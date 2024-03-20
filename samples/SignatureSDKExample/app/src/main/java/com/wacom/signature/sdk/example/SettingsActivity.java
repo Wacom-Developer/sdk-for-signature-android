@@ -1,17 +1,17 @@
-package com.wacom.signaturesdkexample;
+package com.wacom.signature.sdk.example;
 
 import android.Manifest;
-import android.app.Activity;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.app.Activity;
+import android.graphics.Color;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 
-import com.wacom.signaturesdkexample.persistence.SettingsPreferences;
+import com.wacom.signature.sdk.example.persistence.SettingsPreferences;
 
 public class SettingsActivity extends Activity {
 
@@ -102,6 +102,9 @@ public class SettingsActivity extends Activity {
 				break;
 			case ISO_BINARY:
 				signatureFormatSelector = (RadioButton)findViewById(R.id.signature_format_iso_binary);
+				break;
+			case ISO_2014_BINARY:
+				signatureFormatSelector = (RadioButton)findViewById(R.id.signature_format_iso_2014_binary);
 				break;
 			case ISO_XML:
 				signatureFormatSelector = (RadioButton)findViewById(R.id.signature_format_iso_xml);
@@ -207,6 +210,9 @@ public class SettingsActivity extends Activity {
 				break;
 			case R.id.signature_format_iso_binary:
 				settingsPreferences.setSignatureFormat(SettingsPreferences.SignatureFormat.ISO_BINARY);
+				break;
+			case R.id.signature_format_iso_2014_binary:
+				settingsPreferences.setSignatureFormat(SettingsPreferences.SignatureFormat.ISO_2014_BINARY);
 				break;
 			case R.id.signature_format_iso_xml:
 				settingsPreferences.setSignatureFormat(SettingsPreferences.SignatureFormat.ISO_XML);

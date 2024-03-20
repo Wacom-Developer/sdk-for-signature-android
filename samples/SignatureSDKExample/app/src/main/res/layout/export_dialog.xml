@@ -20,22 +20,34 @@
         android:layout_height="wrap_content">
 
         <RadioButton
+            android:id="@+id/signature_format_as_acquired"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/export_signature_format_as_acquired"/>
+
+        <RadioButton
             android:id="@+id/signature_format_fss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/signature_format_fss"/>
+            android:text="@string/export_signature_format_fss"/>
 
         <RadioButton
             android:id="@+id/signature_format_iso_binary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/signature_format_iso_binary"/>
+            android:text="@string/export_signature_format_iso_binary"/>
+
+        <RadioButton
+            android:id="@+id/signature_format_iso_2014_binary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/export_signature_format_iso_2014_binary"/>
 
         <RadioButton
             android:id="@+id/signature_format_iso_xml"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/signature_format_iso_xml"/>
+            android:text="@string/export_signature_format_iso_xml"/>
 
     </RadioGroup>
 

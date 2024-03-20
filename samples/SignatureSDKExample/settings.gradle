@@ -1,1 +1,1 @@
-include ':app', ':signaturesdk_2.1'
+include ':app'

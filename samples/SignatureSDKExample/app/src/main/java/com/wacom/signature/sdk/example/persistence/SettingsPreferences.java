@@ -1,9 +1,9 @@
-package com.wacom.signaturesdkexample.persistence;
+package com.wacom.signature.sdk.example.persistence;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.wacom.signaturesdkexample.R;
+import com.wacom.signature.sdk.example.R;
 
 public class SettingsPreferences {
 
@@ -12,10 +12,10 @@ public class SettingsPreferences {
     }
 
     public enum SignatureFormat {
-        FSS, ISO_BINARY, ISO_XML;
+        FSS, ISO_BINARY, ISO_2014_BINARY, ISO_XML;
     }
 
-    private static final String SETTINGS_PREF_NAME = ".pref.settings";
+    private static final String SETTINGS_PREF_NAME = ".pref2.settings";
 
     private static final String IMAGE_WIDTH = "image_width";
     private static final String IMAGE_HEIGHT = "image_height";
@@ -113,6 +113,7 @@ public class SettingsPreferences {
     }
 
     public SignatureFormat getSignatureFormat() {
+        String s = settingsPreferences.getString(SIGNATURE_FORMAT, DEFAULT_SIGNATURE_FORMAT.name());
         return SignatureFormat.valueOf(settingsPreferences.getString(SIGNATURE_FORMAT, DEFAULT_SIGNATURE_FORMAT.name()));
     }
 }

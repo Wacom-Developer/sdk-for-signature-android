@@ -1,5 +1,9 @@
 <resources>
 
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">0dp</dimen>
+    <dimen name="activity_vertical_margin">0dp</dimen>
+    
     <item name="arrow_btn_width" format="dimension" type="dimen">30dp</item>
     <item name="btn_group_space" format="dimension" type="dimen">25dp</item>
     <item name="navbar_left_space" format="dimension" type="dimen">10dp</item>

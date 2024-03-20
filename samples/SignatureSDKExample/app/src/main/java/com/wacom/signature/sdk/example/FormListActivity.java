@@ -1,4 +1,4 @@
-package com.wacom.signaturesdkexample;
+package com.wacom.signature.sdk.example;
 
 import android.Manifest;
 import android.app.Activity;
@@ -6,10 +6,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,18 +25,26 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.wacom.signature.sdk.Signature;
+import com.wacom.signature.sdk.*;
 import com.wacom.signature.sdk.activity.AboutSignatureSDKActivity;
+import com.wacom.signature.sdk.example.persistence.SettingsPreferences;
+import com.wacom.signature.sdk.example.utils.ILoadSignature;
+import com.wacom.signature.sdk.example.utils.SignatureFormatInfo;
+import com.wacom.signature.sdk.example.utils.SignatureUtils;
 import com.wacom.signature.sdk.exception.SignatureSDKException;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import ua.com.vassiliev.androidfilebrowser.FileBrowserActivity;
 
 public class FormListActivity extends Activity {
 
@@ -42,7 +53,7 @@ public class FormListActivity extends Activity {
     private FormArrayAdapter adapter;
     private List<String> formFiles = new ArrayList<String>();
     private byte[] exportData;
-    private String fileExtension;
+    private static int GRANTED_WRITE_CODE = 45;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +61,6 @@ public class FormListActivity extends Activity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.form_list_layout);
-
-        // this is only an example of use of the Wacom Signature SDK, so we don't bother about
-        // permissions, this should be handle properly in real apps
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }
 
         Button newFormBtn = (Button) findViewById(R.id.new_form_btn);
         newFormBtn.setOnClickListener(new View.OnClickListener() {
@@ -82,20 +87,25 @@ public class FormListActivity extends Activity {
         });
 
         ListView listView = (ListView) findViewById(R.id.listview);
-
-        // using the function Arrays.asList does not allow to remove elements
-        //formFiles = Arrays.asList(getFiles());
-
         adapter = new FormArrayAdapter(this, R.layout.form_list_item_layout, formFiles);
         listView.setAdapter(adapter);
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SAVE_FILE_ACTION) {
             if (resultCode == RESULT_OK) {
-                String dirname = data.getStringExtra(FileBrowserActivity.returnDirectoryParameter);
-                openFilenameDialog(dirname);
+                try {
+                    OutputStream outputStream = getContentResolver().openOutputStream(data.getData());
+                    if (outputStream != null) {
+                        outputStream.write(exportData);
+                        outputStream.flush();
+                        outputStream.close();
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
@@ -169,7 +179,7 @@ public class FormListActivity extends Activity {
     }
 
     private String[] getFiles() {
-        File root = new File(Environment.getExternalStorageDirectory()+"/forms");
+        File root = new File(getFilesDir()+"/forms");
         return root.list(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -180,14 +190,14 @@ public class FormListActivity extends Activity {
 
     private void openForm(String formName) {
         Intent intent = new Intent(this, FormViewerActivity.class);
-        String formPath = Uri.fromFile(new File(Environment.getExternalStorageDirectory()+"/forms/"+formName)).toString();
+        String formPath = Uri.fromFile(new File(getFilesDir()+"/forms/"+formName)).toString();
         intent.putExtra(FormViewerActivity.FORM_PATH, formPath);
         startActivity(intent);
     }
 
     private void editForm(String formName) {
         Intent intent = new Intent(this, TextEditorActivity.class);
-        String formPath = new File(Environment.getExternalStorageDirectory()+"/forms/"+formName).toString();
+        String formPath = new File(getFilesDir()+"/forms/"+formName).toString();
         intent.putExtra(TextEditorActivity.FILE_PATH, formPath);
         startActivity(intent);
     }
@@ -199,7 +209,7 @@ public class FormListActivity extends Activity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        File file = new File(Environment.getExternalStorageDirectory()+"/forms/"+formName);
+                        File file = new File(getFilesDir()+"/forms/"+formName);
                         file.delete();
                         formFiles.remove(formName);
                         adapter.notifyDataSetChanged();
@@ -226,12 +236,21 @@ public class FormListActivity extends Activity {
 
         final AlertDialog dialog = dialogBuilder.create();
 
+        RadioButton currentFormat = dialogView.findViewById(R.id.signature_format_as_acquired);
+        currentFormat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                exportAsAcquired(formName);
+            }
+        });
+
         RadioButton fssFormat = (RadioButton) dialogView.findViewById(R.id.signature_format_fss);
         fssFormat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                exportToFSS(formName);
+                exportTo(SignatureFormat.FSS, formName);
             }
         });
 
@@ -240,7 +259,16 @@ public class FormListActivity extends Activity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                exportToISOBinary(formName);
+                exportTo(SignatureFormat.ISO_BINARY, formName);
+            }
+        });
+
+        RadioButton iso2014Format = (RadioButton) dialogView.findViewById(R.id.signature_format_iso_2014_binary);
+        iso2014Format.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                exportTo(SignatureFormat.ISO_2014_BINARY, formName);
             }
         });
 
@@ -249,76 +277,75 @@ public class FormListActivity extends Activity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                exportToISOXml(formName);
+                exportTo(SignatureFormat.ISO_XML, formName);
             }
         });
 
         dialog.show();
     }
 
-    private void exportToFSS(String formName) {
-        File file = new File(Environment.getExternalStorageDirectory()+"/forms/"+formName.replace(".html", ".png"));
-        final Signature signature = new Signature(this);
+    private byte[] readSignatureData(String formName) {
+        File file = new File(getFilesDir()+"/forms/"+formName.replace(".html", ""));
+        int size = (int) file.length();
+        byte[] bytes = new byte[size];
         try {
-            signature.setLincense(FormViewerActivity.LICENSE);
-            signature.readEncodedBitmapFile(file.getAbsolutePath());
-            checkEncryption(signature, new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        byte[] fss = signature.getSigData();
-                        saveToFile(fss, ".fss");
-                    } catch (SignatureSDKException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        } catch (SignatureSDKException e) {
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+            buf.read(bytes, 0, bytes.length);
+            buf.close();
+
+            return bytes;
+        } catch (IOException e) {
             openDialog(e.getMessage());
+        }
+
+        return null;
+    }
+
+    private void exportAsAcquired(String formName) {
+        byte[] signatureData = readSignatureData(formName);
+        if (signatureData != null) {
+            saveToFile(signatureData, ".fss");
         }
     }
 
-    private void exportToISOBinary(String formName) {
-        File file = new File(Environment.getExternalStorageDirectory()+"/forms/"+formName.replace(".html", ".png"));
-        final Signature signature = new Signature(this);
-        try {
-            signature.setLincense(FormViewerActivity.LICENSE);
-            signature.readEncodedBitmapFile(file.getAbsolutePath());
-            checkEncryption(signature, new Runnable() {
+    private void exportTo(final SignatureFormat signatureFormat, String formName) {
+        byte[] signatureData = readSignatureData(formName);
+        if (signatureData != null) {
+            SignatureUtils.loadSignature(this, FormViewerActivity.LICENSE, signatureData, null, new ILoadSignature() {
                 @Override
-                public void run() {
+                public void onSignatureLoaded(SignatureFormatInfo signatureFormatInfo) {
                     try {
-                        byte[] iso = signature.exportToBinaryISO();
-                        saveToFile(iso, ".bin");
+                        //reset encryption
+                        signatureFormatInfo.getSignature().setEncryptionPassword(null);
+                        signatureFormatInfo.getSignature().setPublicKey(null);
+                        switch (signatureFormat) {
+                            case FSS: {
+                                byte[] fss = signatureFormatInfo.getSignature().getSigData();
+                                saveToFile(fss, ".fss");
+                            }
+                            break;
+                            case ISO_BINARY: {
+                                byte[] iso = signatureFormatInfo.getSignature().exportISO(ISOMode.ISO19784_7_BINARY).getBinaryValue();
+                                saveToFile(iso, ".bin");
+                            }
+                            break;
+                            case ISO_2014_BINARY: {
+                                byte[] iso = signatureFormatInfo.getSignature().exportISO(ISOMode.ISO19784_7_2014_BINARY).getBinaryValue();
+                                saveToFile(iso, ".bin");
+                            }
+                            break;
+                            case ISO_XML: {
+                                String xml = signatureFormatInfo.getSignature().exportISO(ISOMode.ISO19785_3_XML).getStringValue();
+                                saveToFile(xml.getBytes(), ".xml");
+                            }
+                            break;
+                        }
+
                     } catch (SignatureSDKException e) {
                         openDialog(e.getMessage());
                     }
                 }
             });
-        } catch (SignatureSDKException e) {
-            openDialog(e.getMessage());
-        }
-    }
-
-    private void exportToISOXml(String formName) {
-        File file = new File(Environment.getExternalStorageDirectory()+"/forms/"+formName.replace(".html", ".png"));
-        final Signature signature = new Signature(this);
-        try {
-            signature.setLincense(FormViewerActivity.LICENSE);
-            signature.readEncodedBitmapFile(file.getAbsolutePath());
-            checkEncryption(signature, new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        String xml = signature.exportToXmlISO();
-                        saveToFile(xml.getBytes(), ".xml");
-                    } catch (SignatureSDKException e) {
-                        openDialog(e.getMessage());
-                    }
-                }
-            });
-        } catch (SignatureSDKException e) {
-            openDialog(e.getMessage());
         }
     }
 
@@ -340,94 +367,33 @@ public class FormListActivity extends Activity {
 
     private void saveToFile(byte[] data, String extension) {
         exportData = data;
-        fileExtension = extension;
-        Intent openDir = new Intent(FileBrowserActivity.INTENT_ACTION_SELECT_DIR,
-                                    null, this, FileBrowserActivity.class);
-        startActivityForResult(openDir, SAVE_FILE_ACTION);
-    }
-
-    private void openFilenameDialog(final String dirname) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("File name");
-
-        // Set up the input
-        final EditText input = new EditText(this);
-        // Specify the type of input expected
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-
-        // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                saveSignature(dirname, input.getText().toString());
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-    }
-
-    private void saveSignature(String dirname, String filename) {
-        if ((filename != null) && (!filename.isEmpty())) {
-            File file = new File(dirname, filename+fileExtension);
-            try {
-                FileOutputStream fOut = new FileOutputStream(file);
-                fOut.write(exportData);
-                fOut.flush();
-                fOut.close();
-                openDialog("Signature exported to file");
-            } catch (Exception e) {
-                openDialog(e.toString());
-            }
+        int permissionCheck = ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        );
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    GRANTED_WRITE_CODE
+            );
+            return;
         }
+        launchPicker(SAVE_FILE_ACTION, Intent.ACTION_CREATE_DOCUMENT);
     }
 
-    private void checkEncryption(Signature signature, Runnable runnable) {
-        boolean passwordNeeded = false;
-        if (signature.isEncrypted()) {
-            // in this example we have both encryption by password and certificate
-            // in order to know which one it has been use we do this.
-            // Note that this is only for teaching purposes, not using on real production apps
-            try {
-                signature.setPrivateKey(FormViewerActivity.readAsset(this, "private_key.pem"));
-            } catch (SignatureSDKException e) {
-                passwordNeeded =  true;
-            }
-        }
-
-        if (passwordNeeded) {
-            openPasswordDialog(signature, runnable);
-        } else {
-            runnable.run();
-        }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        launchPicker(SAVE_FILE_ACTION, Intent.ACTION_CREATE_DOCUMENT);
     }
 
-    private void openPasswordDialog(final Signature sig, final Runnable runnable) {
-        final EditText passwordEditText = new EditText(this);
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Password required")
-                .setMessage("The signature is encrypted with password, please enter the password:")
-                .setView(passwordEditText)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            sig.setEncryptionPassword(passwordEditText.getText().toString());
-                            runnable.run();
-                        } catch (SignatureSDKException e) {
-                            openDialog("Invalid password");
-                        }
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .create();
-        dialog.show();
+    private void launchPicker(int action, String intentAction) {
+        Intent intent = new Intent(intentAction);
+        intent.setType("*/*");
+        startActivityForResult(intent, action);
     }
 
     private void openAboutScreen() {
@@ -435,4 +401,6 @@ public class FormListActivity extends Activity {
         intent.putExtra(AboutSignatureSDKActivity.LICENSE, FormViewerActivity.LICENSE.getBytes());
         startActivity(intent);
     }
+
+
 }

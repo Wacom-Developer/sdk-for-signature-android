@@ -1,4 +1,4 @@
-package com.wacom.signaturesdkexample;
+package com.wacom.signature.sdk.example;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import com.wacom.ink.willformat.FileUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 public class TextEditorActivity extends Activity {
 
@@ -41,7 +42,9 @@ public class TextEditorActivity extends Activity {
         });
 
         try {
-            byte[] data = FileUtils.readFile(new File(formPath));
+            ByteBuffer buffer = FileUtils.loadFile(new File(formPath));
+            byte[] data = new byte[buffer.remaining()];
+            buffer.get(data);
             String str = new String(data);
             editText.setText(str);
         } catch (IOException e) {

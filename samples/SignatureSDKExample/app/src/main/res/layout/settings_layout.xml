@@ -238,6 +238,13 @@
                 android:text="@string/signature_format_iso_binary"/>
 
             <RadioButton
+                android:id="@+id/signature_format_iso_2014_binary"
+                android:layout_width="151dp"
+                android:layout_height="wrap_content"
+                android:onClick="selectSignatureFormat"
+                android:text="@string/signature_format_iso_2014_binary" />
+
+            <RadioButton
                 android:id="@+id/signature_format_iso_xml"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
